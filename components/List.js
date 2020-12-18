@@ -5,10 +5,11 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity,
-  Platform
+  TouchableWithoutFeedback,
+  Platform,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import RatingImage from "./RatingImage";
 
 export default function List({ navigation, route }) {
   const Bearer =
@@ -32,16 +33,16 @@ export default function List({ navigation, route }) {
   function geoSuccess(pos) {
     var loc = pos.coords;
     // console.log(loc.latitude, loc.longitude)
-    fetchList(loc.latitude, loc.longitude).then((data) =>
-      setList(data.businesses)
+    fetchList(loc.latitude, loc.longitude).then(
+      (data) => setList(data.businesses)
       // console.log(`data is: ${data}`)
     );
   }
 
   async function fetchList(lat, lng) {
     const proxy = "https://cors-anywhere.herokuapp.com/";
-    const url = `https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lng}`;
-    const final = Platform.OS === 'android' ? url : proxy+url
+    const url = `https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lng}&limit=50`;
+    const final = Platform.OS !== "web" ? url : proxy + url;
     // const url = `https://api.coinlore.net/api/tickers/`;
     try {
       const res = await fetch(final, {
@@ -72,11 +73,13 @@ export default function List({ navigation, route }) {
   let orderedList = list.sort((a, b) => a.distance - b.distance);
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View
+    style={{ backgroundColor: "#E8E8E8"}}
+    >
       <FlatList
         data={orderedList}
         renderItem={({ item }) => (
-          <TouchableOpacity
+          <TouchableWithoutFeedback
             // style={styles.button}
             onPress={() => {
               navigation.navigate("Details", {
@@ -85,30 +88,40 @@ export default function List({ navigation, route }) {
               });
             }}
           >
-            <Image
-              source={{ uri: item.image_url }}
-              style={{ width: 200, height: 200 }}
-            />
-            <Text>{item.name}</Text>
-            <Text
-            // style={styles.text}
-            >
-              {(item.distance / 1000).toFixed(2)}km
-            </Text>
-          </TouchableOpacity>
+            <View style={styles.card}>
+              <Image
+                source={{ uri: item.image_url }}
+                style={{ width: 150, height: 150, backgroundColor: item.image_url==""? "#B3B3B3" : "transparent" }}
+              />
+              <View style={styles.info}>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "column",
+                    justifyContent: "flex-start"
+                  }}
+                >
+                  <Text style={styles.headline}>{item.name}</Text>
+                  <RatingImage item={item.rating} />
+                  </View>
+                  {/* <Text>{item.rating}</Text> */}
+                  <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row-reverse",
+                    justifyContent: "space-between",
+                    marginBottom: 10}}>
+                  <Text>{item.review_count} Reviews</Text>
+                  <Text style={styles.title}>
+                  {(item.distance / 1000).toFixed(2)}km
+                </Text>
+                  </View>
+                <Text style={styles.open}>{item.is_closed == "false" ? "CLOSED" : "OPEN"}</Text>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
         )}
       />
-      {/* {list.map((item) => {
-        return (
-          <li className="list collection center container " key={item.id}>
-            <section className="cryptoMain">#{item.rank}</section>
-            <NavLink to={item.id} className="cryptoMain">
-              {item.name}
-            </NavLink>
-            <p className="cryptoMain">${item.price_usd} USD</p>
-          </li>
-        );
-      })} */}
     </View>
   );
 }
@@ -128,4 +141,41 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     fontSize: 16,
   },
+  card: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    padding: 15,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.55,
+    shadowRadius: 9.84,
+
+    elevation: 20,
+    marginBottom: 30
+  },
+  info: {
+    flex: 1,
+    flexDirection: "column",
+    padding: 10,
+  },
+  headline: {
+    fontSize: 21,
+    fontWeight: "300",
+    marginBottom: 5
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  open: {
+    color: "green", 
+    fontWeight: "bold", 
+    fontSize: 14
+  }
 });

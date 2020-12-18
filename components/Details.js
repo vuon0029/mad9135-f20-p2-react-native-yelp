@@ -41,7 +41,7 @@ export default function Details({ route }) {
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Image
         source={{ uri: details.image_url }}
-        style={{ width: 200, height: 200 }}
+        style={{ width: 200, height: 200, backgroundColor: details.image_url==""? "#B3B3B3" : "transparent"  }}
       />
       <Text>Name: {details.name}</Text>
       <Text>Phone: {details.phone}</Text>

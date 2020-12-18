@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
-    fontSize: 30,
+    fontSize: 26,
+    fontWeight: "300"
   },
   textOut: {
     paddingTop: 10,
