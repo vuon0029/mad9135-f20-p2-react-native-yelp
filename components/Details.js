@@ -1,60 +1,50 @@
-import React, { useState, useEffect } from 'react'
-import {
-
-  Platform,
-  ActivityIndicator,
-  Image,
-  View,
-  Text,
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { Platform, ActivityIndicator, Image, View, Text } from "react-native";
 import RatingImage from "./RatingImage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Icon } from "react-native-elements";
 
-
-export default function Details ({ route }) {
+export default function Details({ route }) {
   const Bearer =
-
     "45mEth91SGrrTZghjhUK6s--hPksQPzZUpo4tgMwC3IXTY2C3ReP7BWBLupqNBBZxR-qt593a0-fSQ0sMXthd5C5uJ835k6GKZL_GTK4D6eK86oCHx86dNlA8fbOX3Yx";
   const [details, setDetails] = useState(null);
-  const [reviews, setReviews] = useState(null)
+  const [reviews, setReviews] = useState(null);
 
   useEffect(() => {
-    fetchDetails(`https://api.yelp.com/v3/businesses/${route.params.alias}`).then((data) => setDetails(data));
-    fetchDetails(`https://api.yelp.com/v3/businesses/${route.params.alias}/reviews`).then((data) => setReviews(data.reviews));
+    fetchDetails(
+      `https://api.yelp.com/v3/businesses/${route.params.alias}`
+    ).then((data) => setDetails(data));
+    fetchDetails(
+      `https://api.yelp.com/v3/businesses/${route.params.alias}/reviews`
+    ).then((data) => setReviews(data.reviews));
 
-    console.log(route.params.alias);
     async function fetchDetails(url) {
       const proxy = "https://cors-anywhere.herokuapp.com/";
-      // const url = `https://api.yelp.com/v3/businesses/${route.params.alias}`;
       const final = Platform.OS === "android" ? url : proxy + url;
 
       try {
         const res = await fetch(url, {
-          method: 'GET',
+          method: "GET",
           headers: new Headers({
-            Authorization: `Bearer ${Bearer}`
-          })
-        })
-        if (!res.ok) throw new Error(res.statusText)
-        return res.json()
+            Authorization: `Bearer ${Bearer}`,
+          }),
+        });
+        if (!res.ok) throw new Error(res.statusText);
+        return res.json();
       } catch (err) {
-        console.error(err)
+        console.error(err);
       }
     }
-  }, [route.params.alias])
+  }, [route.params.alias]);
 
   if (!details || !reviews)
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator size='large' color='#B40000' />
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator size="large" color="#B40000" />
       </View>
-    )
+    );
 
-
-  console.log(details);
-  console.log(reviews)
-  let priceRange = ["Cheap", "Fair", "Expensive", "Very Expensive"]
+  let priceRange = ["Cheap", "Fair", "Expensive", "Very Expensive"];
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["right", "bottom", "left"]}>
@@ -108,10 +98,10 @@ export default function Details ({ route }) {
                 color="#B40000"
                 type="ionicon"
               />
-              {details.price? priceRange[details.price.length] : null}
+              {details.price ? priceRange[details.price.length] : null}
             </Text>
 
-            <View style={{alignItems: "flex-start"}}>
+            <View style={{ alignItems: "flex-start" }}>
               <Icon
                 style={styles.icon}
                 name="chatbox-ellipses-outline"
@@ -119,25 +109,16 @@ export default function Details ({ route }) {
                 type="ionicon"
               />
               <View>
-              {reviews.map((item)=>{
-                return (
-                  <View style={styles.review}>
-                    <Text style={styles.username}>{item.user.name}</Text>
-                    <Text style={styles.desc}>{item.text}</Text>
-                  </View>
-                )
-              })}
+                {reviews.map((item) => {
+                  return (
+                    <View style={styles.review}>
+                      <Text style={styles.username}>{item.user.name}</Text>
+                      <Text style={styles.desc}>{item.text}</Text>
+                    </View>
+                  );
+                })}
               </View>
             </View>
-
-            {/* <Text style={styles.text}>
-              <Icon
-                style={styles.icon}
-                name="chatbox-ellipses-outline"
-                color="#B40000"
-                type="ionicon"
-              />
-            </Text> */}
           </View>
         </View>
       </View>
@@ -156,33 +137,16 @@ const styles = StyleSheet.create({
     marginTop: -90,
   },
   review: {
-    // flex: 1,
-    // flexDirection: "row",
-    // margin: 35,
-    // borderColor: "#B40000",
-    // borderStyle: "solid",
-    // backgroundColor: "#FFFFFF",
-    // borderBottomColor: "#B40000",
-    // borderWidth: 1,
-    margin: 2
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 5,
-    // },
-    // shadowOpacity: 0.36,
-    // shadowRadius: 6.68,
-
-    // elevation: 11,
+    margin: 2,
   },
   username: {
     fontSize: 16,
     fontWeight: "bold",
-    padding: 2
+    padding: 2,
   },
   desc: {
     fontSize: 14,
-    padding: 2
+    padding: 2,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
@@ -228,9 +192,8 @@ const styles = StyleSheet.create({
     fontSize: 26,
     margin: 10,
     fontWeight: "200",
-    // backgroundColor: "#FFFFFF"
   },
   icon: {
-    marginRight: 12
-  }
+    marginRight: 12,
+  },
 });

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -15,8 +15,7 @@ import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RatingImage from "./RatingImage";
 
-
-export default function List ({ navigation, route }) {
+export default function List({ navigation, route }) {
   const Bearer =
     "45mEth91SGrrTZghjhUK6s--hPksQPzZUpo4tgMwC3IXTY2C3ReP7BWBLupqNBBZxR-qt593a0-fSQ0sMXthd5C5uJ835k6GKZL_GTK4D6eK86oCHx86dNlA8fbOX3Yx";
   const [list, setList] = useState(null);
@@ -26,66 +25,63 @@ export default function List ({ navigation, route }) {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
-
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(geoSuccess, geoFailure, geoOptions)
-  }, [])
+    navigator.geolocation.getCurrentPosition(
+      geoSuccess,
+      geoFailure,
+      geoOptions
+    );
+  }, []);
 
   let geoOptions = {
     enableHighAccuracy: true,
     timeOut: 20000,
-    maximumAge: 60 * 60
-  }
+    maximumAge: 60 * 60,
+  };
 
   function geoSuccess(pos) {
     var loc = pos.coords;
-    console.log(loc.latitude, loc.longitude);
     setLat(loc.latitude);
     setLng(loc.longitude);
-    fetchList(loc.latitude, loc.longitude).then(
-      (data) => setList(data.businesses)
-      // console.log(`data is: ${data}`)
-    )
+    fetchList(loc.latitude, loc.longitude).then((data) =>
+      setList(data.businesses)
+    );
   }
 
   async function fetchList(lat, lng) {
     const proxy = "https://cors-anywhere.herokuapp.com/";
     const url = `https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lng}&limit=50`;
     const final = Platform.OS !== "web" ? url : proxy + url;
-    // const url = `https://api.coinlore.net/api/tickers/`;
     try {
       const res = await fetch(url, {
-        method: 'GET',
+        method: "GET",
         headers: new Headers({
-          Authorization: `Bearer ${Bearer}`
-        })
-      })
-      if (!res.ok) throw new Error(res.statusText)
-      return res.json()
+          Authorization: `Bearer ${Bearer}`,
+        }),
+      });
+      if (!res.ok) throw new Error(res.statusText);
+      return res.json();
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   }
-  function geoFailure (pos) {
-    console.warn(`ERROR: ${pos}`)
+  function geoFailure(pos) {
+    console.warn(`ERROR: ${pos}`);
   }
 
   if (!list)
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator size='large' color='#B40000' />
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator size="large" color="#B40000" />
       </View>
-    )
+    );
 
-  console.log(list)
-
-  let orderedList = list.sort((a, b) => a.distance - b.distance)
+  let orderedList = list.sort((a, b) => a.distance - b.distance);
 
   if (!isEnabled)
     return (
       <SafeAreaView style={{ flex: 1 }} edges={["right", "bottom", "left"]}>
         <View style={{ backgroundColor: "#E8E8E8" }}>
-          {/* <View style={styles.container}> */}
           {Platform.OS !== "web" ? (
             <View
               style={{
@@ -111,13 +107,10 @@ export default function List ({ navigation, route }) {
             </View>
           ) : null}
 
-          {/* </View> */}
-
           <FlatList
             data={orderedList}
             renderItem={({ item }) => (
               <TouchableWithoutFeedback
-                // style={styles.button}
                 onPress={() => {
                   navigation.navigate("Details", {
                     alias: item.alias,
@@ -259,21 +252,21 @@ export default function List ({ navigation, route }) {
 }
 const styles = StyleSheet.create({
   button: {
-    alignItems: 'center',
-    backgroundColor: '#B40000',
+    alignItems: "center",
+    backgroundColor: "#B40000",
     padding: 20,
-    borderRadius: 12
+    borderRadius: 12,
   },
   text: {
-    color: 'white',
-    fontSize: 30
+    color: "white",
+    fontSize: 30,
   },
   textOut: {
     paddingTop: 10,
-    fontSize: 16
+    fontSize: 16,
   },
   view: {
-    flex: 1
+    flex: 1,
   },
   card: {
     flex: 1,
@@ -320,7 +313,6 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
-  // Callout bubble
   bubble: {
     flex: 1,
     flexDirection: "column",
@@ -338,7 +330,6 @@ const styles = StyleSheet.create({
     height: 80,
     resizeMode: "cover",
   },
-  // Arrow below the bubble
   arrow: {
     backgroundColor: "transparent",
     borderColor: "transparent",
