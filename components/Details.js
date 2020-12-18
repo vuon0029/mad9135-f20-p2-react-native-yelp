@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 import {
-  StyleSheet,
+
   Platform,
   ActivityIndicator,
   Image,
@@ -11,8 +11,10 @@ import RatingImage from "./RatingImage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Icon } from "react-native-elements";
 
-export default function Details({ route }) {
+
+export default function Details ({ route }) {
   const Bearer =
+
     "45mEth91SGrrTZghjhUK6s--hPksQPzZUpo4tgMwC3IXTY2C3ReP7BWBLupqNBBZxR-qt593a0-fSQ0sMXthd5C5uJ835k6GKZL_GTK4D6eK86oCHx86dNlA8fbOX3Yx";
   const [details, setDetails] = useState(null);
   const [reviews, setReviews] = useState(null)
@@ -26,27 +28,29 @@ export default function Details({ route }) {
       const proxy = "https://cors-anywhere.herokuapp.com/";
       // const url = `https://api.yelp.com/v3/businesses/${route.params.alias}`;
       const final = Platform.OS === "android" ? url : proxy + url;
+
       try {
-        const res = await fetch(final, {
-          method: "GET",
+        const res = await fetch(url, {
+          method: 'GET',
           headers: new Headers({
-            Authorization: `Bearer ${Bearer}`,
-          }),
-        });
-        if (!res.ok) throw new Error(res.statusText);
-        return res.json();
+            Authorization: `Bearer ${Bearer}`
+          })
+        })
+        if (!res.ok) throw new Error(res.statusText)
+        return res.json()
       } catch (err) {
-        console.error(err);
+        console.error(err)
       }
     }
-  }, [route.params.alias]);
+  }, [route.params.alias])
 
   if (!details || !reviews)
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ActivityIndicator size="large" color="#B40000" />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <ActivityIndicator size='large' color='#B40000' />
       </View>
-    );
+    )
+
 
   console.log(details);
   console.log(reviews)
