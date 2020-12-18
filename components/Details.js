@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Platform, ActivityIndicator, Image, View, Text } from 'react-native'
+import {
+  Platform,
+  ActivityIndicator,
+  Image,
+  View,
+  Text,
+  StyleSheet
+} from 'react-native'
 
 export default function Details ({ route }) {
   const Bearer =
@@ -38,11 +45,8 @@ export default function Details ({ route }) {
   console.log(details)
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Image
-        source={{ uri: details.image_url }}
-        style={{ width: 200, height: 200 }}
-      />
+    <View style={styles.view}>
+      <Image source={{ uri: details.image_url }} style={styles.image} />
       <Text>Name: {details.name}</Text>
       <Text>Phone: {details.phone}</Text>
       <Text>Distance: {route.params.distance}km</Text>
@@ -51,3 +55,15 @@ export default function Details ({ route }) {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  view: {
+    flex: 1
+    // alignItems: 'center',
+    // justifyContent: 'center'
+  },
+  image: {
+    width: 430,
+    height: 200
+  }
+})

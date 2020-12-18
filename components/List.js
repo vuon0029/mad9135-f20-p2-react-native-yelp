@@ -68,7 +68,7 @@ export default function List ({ navigation, route }) {
   let orderedList = list.sort((a, b) => a.distance - b.distance)
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={styles.view}>
       <FlatList
         data={orderedList}
         renderItem={({ item }) => (
@@ -81,10 +81,7 @@ export default function List ({ navigation, route }) {
               })
             }}
           >
-            <Image
-              source={{ uri: item.image_url }}
-              style={{ width: 200, height: 200 }}
-            />
+            <Image source={{ uri: item.image_url }} style={styles.image} />
             <Text>{item.name}</Text>
             <Text
             // style={styles.text}
@@ -123,5 +120,12 @@ const styles = StyleSheet.create({
   textOut: {
     paddingTop: 10,
     fontSize: 16
+  },
+  view: {
+    flex: 1
+  },
+  image: {
+    width: 430,
+    height: 200
   }
 })
