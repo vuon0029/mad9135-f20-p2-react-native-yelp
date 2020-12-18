@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "rn-hello-world",
-    "slug": "rn-hello-world",
+    "name": "mad9135-f20-p2-react-native-yelp",
+    "slug": "mad9135-f20-p2-react-native-yelp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

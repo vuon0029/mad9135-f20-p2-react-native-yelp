@@ -20,13 +20,25 @@ export default function App() {
           headerTintColor: "white"
       }}>
         <Stack.Screen name="Home" component={Home} options={{
-          title: "React Native Final"
+          title: "React Native Final",
+          headerTitleStyle: {
+            fontSize: 26,
+            fontWeight: "300"
+          }
         }}/>
         <Stack.Screen name="List" component={List} options={{
-          title: "Restaurants Nearby"
+          title: "Restaurants Nearby",
+          headerTitleStyle: {
+            fontSize: 26,
+            fontWeight: "300"
+          }
         }}/>
         <Stack.Screen name="Details" component={Details} options={{
-          title: "Restaurant Info."
+          title: "Restaurant Info.",
+          headerTitleStyle: {
+            fontSize: 26,
+            fontWeight: "300"
+          }
         }}/>
       </Stack.Navigator>
       <StatusBar style="light" />
