@@ -5,7 +5,7 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
   Platform,
   Dimensions,
 } from "react-native";
@@ -118,7 +118,7 @@ export default function List({ navigation, route }) {
           <FlatList
             data={orderedList}
             renderItem={({ item }) => (
-              <TouchableHighlight
+              <TouchableWithoutFeedback
                 // style={styles.button}
                 onPress={() => {
                   navigation.navigate("Details", {
@@ -167,7 +167,7 @@ export default function List({ navigation, route }) {
                     </Text>
                   </View>
                 </View>
-              </TouchableHighlight>
+              </TouchableWithoutFeedback>
             )}
           />
         </View>
@@ -286,11 +286,11 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.55,
-    shadowRadius: 9.84,
+    shadowOpacity: 0.65,
+    shadowRadius: 12.84,
 
     elevation: 20,
-    marginBottom: 40,
+    marginBottom: 65,
   },
   info: {
     flex: 1,
