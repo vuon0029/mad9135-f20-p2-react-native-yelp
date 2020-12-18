@@ -82,10 +82,8 @@ export default function List ({ navigation, route }) {
             }}
           >
             <Image source={{ uri: item.image_url }} style={styles.image} />
-            <Text>{item.name}</Text>
-            <Text
-            // style={styles.text}
-            >
+            <Text style={styles.text}>{item.name}</Text>
+            <Text style={styles.text}>
               {(item.distance / 1000).toFixed(2)}km
             </Text>
           </TouchableOpacity>
@@ -114,8 +112,8 @@ const styles = StyleSheet.create({
     borderRadius: 12
   },
   text: {
-    color: 'white',
-    fontSize: 30
+    textAlign: 'center',
+    fontSize: 20
   },
   textOut: {
     paddingTop: 10,

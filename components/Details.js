@@ -7,6 +7,7 @@ import {
   Text,
   StyleSheet
 } from 'react-native'
+import { Rating } from 'react-native-ratings'
 
 export default function Details ({ route }) {
   const Bearer =
@@ -52,6 +53,11 @@ export default function Details ({ route }) {
       <Text>Distance: {route.params.distance}km</Text>
       <Text>Price: {details.price}</Text>
       <Text>Rating: {details.rating}</Text>
+      <Rating
+        type='star'
+        ratingCount={5}
+        startingValue={`${details.rating}`}
+      ></Rating>
     </View>
   )
 }
